@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>MasulpaniPanchayat</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Masulpani_panchayat_cadastral_1.js"></script>
+        <script src="data/Existing_structures_2.js"></script>
+        <script src="data/Planned_structures_3.js"></script>
+        <script src="data/Completed_structures_4.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#00ffaa',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#00ffaa',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_ESRISatellite_0');
+        map.getPane('pane_ESRISatellite_0').style.zIndex = 400;
+        var layer_ESRISatellite_0 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_ESRISatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_ESRISatellite_0;
+        map.addLayer(layer_ESRISatellite_0);
+        function pop_Masulpani_panchayat_cadastral_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KIDE'] !== null ? autolinker.link(feature.properties['KIDE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PAR_TYPE'] !== null ? autolinker.link(feature.properties['PAR_TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area_ha'] !== null ? autolinker.link(feature.properties['Area_ha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Masulpani_panchayat_cadastral_1_0() {
+            return {
+                pane: 'pane_Masulpani_panchayat_cadastral_1',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(145,82,45,0.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Masulpani_panchayat_cadastral_1');
+        map.getPane('pane_Masulpani_panchayat_cadastral_1').style.zIndex = 401;
+        map.getPane('pane_Masulpani_panchayat_cadastral_1').style['mix-blend-mode'] = 'normal';
+        var layer_Masulpani_panchayat_cadastral_1 = new L.geoJson(json_Masulpani_panchayat_cadastral_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Masulpani_panchayat_cadastral_1',
+            layerName: 'layer_Masulpani_panchayat_cadastral_1',
+            pane: 'pane_Masulpani_panchayat_cadastral_1',
+            onEachFeature: pop_Masulpani_panchayat_cadastral_1,
+            style: style_Masulpani_panchayat_cadastral_1_0,
+        });
+        bounds_group.addLayer(layer_Masulpani_panchayat_cadastral_1);
+        map.addLayer(layer_Masulpani_panchayat_cadastral_1);
+        function pop_Existing_structures_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Latitude</th>\
+                        <td>' + (feature.properties['Latitude'] !== null ? autolinker.link(feature.properties['Latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Longitude</th>\
+                        <td>' + (feature.properties['Longitude'] !== null ? autolinker.link(feature.properties['Longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Beneficiary name</th>\
+                        <td>' + (feature.properties['Name_of_Be'] !== null ? autolinker.link(feature.properties['Name_of_Be'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Existing_structures_2_0() {
+            return {
+                pane: 'pane_Existing_structures_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Existing_structures_2');
+        map.getPane('pane_Existing_structures_2').style.zIndex = 402;
+        map.getPane('pane_Existing_structures_2').style['mix-blend-mode'] = 'normal';
+        var layer_Existing_structures_2 = new L.geoJson(json_Existing_structures_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Existing_structures_2',
+            layerName: 'layer_Existing_structures_2',
+            pane: 'pane_Existing_structures_2',
+            onEachFeature: pop_Existing_structures_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Existing_structures_2_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Existing_structures_2);
+        map.addLayer(layer_Existing_structures_2);
+        function pop_Planned_structures_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Latitude</th>\
+                        <td>' + (feature.properties['Latitude'] !== null ? autolinker.link(feature.properties['Latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Longitude</th>\
+                        <td>' + (feature.properties['Longitude'] !== null ? autolinker.link(feature.properties['Longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Beneficiary name</th>\
+                        <td>' + (feature.properties['माल'] !== null ? autolinker.link(feature.properties['माल'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Intervention</th>\
+                        <td>' + (feature.properties['Interventi'] !== null ? autolinker.link(feature.properties['Interventi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['कार'] !== null ? autolinker.link(feature.properties['कार'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Planned_structures_3_0() {
+            return {
+                pane: 'pane_Planned_structures_3',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(177,196,57,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Planned_structures_3');
+        map.getPane('pane_Planned_structures_3').style.zIndex = 403;
+        map.getPane('pane_Planned_structures_3').style['mix-blend-mode'] = 'normal';
+        var layer_Planned_structures_3 = new L.geoJson(json_Planned_structures_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Planned_structures_3',
+            layerName: 'layer_Planned_structures_3',
+            pane: 'pane_Planned_structures_3',
+            onEachFeature: pop_Planned_structures_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Planned_structures_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Planned_structures_3);
+        map.addLayer(layer_Planned_structures_3);
+        function pop_Completed_structures_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Latitude</th>\
+                        <td>' + (feature.properties['Latitude'] !== null ? autolinker.link(feature.properties['Latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Longitude</th>\
+                        <td>' + (feature.properties['Longitude'] !== null ? autolinker.link(feature.properties['Longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Beneficiary name</th>\
+                        <td>' + (feature.properties['माल'] !== null ? autolinker.link(feature.properties['माल'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Intervention</th>\
+                        <td>' + (feature.properties['Interventi'] !== null ? autolinker.link(feature.properties['Interventi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['कार'] !== null ? autolinker.link(feature.properties['कार'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Completed_structures_4_0() {
+            return {
+                pane: 'pane_Completed_structures_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Completed_structures_4');
+        map.getPane('pane_Completed_structures_4').style.zIndex = 404;
+        map.getPane('pane_Completed_structures_4').style['mix-blend-mode'] = 'normal';
+        var layer_Completed_structures_4 = new L.geoJson(json_Completed_structures_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Completed_structures_4',
+            layerName: 'layer_Completed_structures_4',
+            pane: 'pane_Completed_structures_4',
+            onEachFeature: pop_Completed_structures_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Completed_structures_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Completed_structures_4);
+        map.addLayer(layer_Completed_structures_4);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>MasulpaniPanchayat</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'bottomleft'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'ActivityMapofMasulpaniPanchayat';
+            };
+            abstract.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Completed_structures_4.png" /> Completed_structures': layer_Completed_structures_4,'<img src="legend/Planned_structures_3.png" /> Planned_structures': layer_Planned_structures_3,'<img src="legend/Existing_structures_2.png" /> Existing_structures': layer_Existing_structures_2,'<img src="legend/Masulpani_panchayat_cadastral_1.png" /> Masulpani_panchayat_cadastral': layer_Masulpani_panchayat_cadastral_1,"ESRI Satellite": layer_ESRISatellite_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_Masulpani_panchayat_cadastral_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['KIDE'] !== null?String('<div style="color: #ffffff; font-size: 6pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['KIDE']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Masulpani_panchayat_cadastral_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Interventi": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_Masulpani_panchayat_cadastral_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['KIDE'] !== null?String('<div style="color: #ffffff; font-size: 6pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['KIDE']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Masulpani_panchayat_cadastral_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Interventi = document.createElement('div');
+            div_Interventi.id = "div_Interventi";
+            div_Interventi.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Interventi);
+            sel_Interventi = document.createElement('select');
+            sel_Interventi.multiple = true;
+            sel_Interventi.size = 10;
+            sel_Interventi.id = "sel_Interventi";
+            var Interventi_options_str = "<option value='' unselected></option>";
+            sel_Interventi.onchange = function(){filterFunc()};
+            Interventi_options_str  += '<option value="30*40 model">30*40 model</option>';
+            Interventi_options_str  += '<option value="5% model">5% model</option>';
+            Interventi_options_str  += '<option value="Brushwood">Brushwood</option>';
+            Interventi_options_str  += '<option value="CPT">CPT</option>';
+            Interventi_options_str  += '<option value="Desiltation">Desiltation</option>';
+            Interventi_options_str  += '<option value="Diversion Based Channel">Diversion Based Channel</option>';
+            Interventi_options_str  += '<option value="Dugwell">Dugwell</option>';
+            Interventi_options_str  += '<option value="Dyke">Dyke</option>';
+            Interventi_options_str  += '<option value="Farm Pond">Farm Pond</option>';
+            Interventi_options_str  += '<option value="Gabion">Gabion</option>';
+            Interventi_options_str  += '<option value="Gate construction work 01 nos.">Gate construction work 01 nos.</option>';
+            Interventi_options_str  += '<option value="Gully plug">Gully plug</option>';
+            Interventi_options_str  += '<option value="Hoticulture Plantation">Hoticulture Plantation</option>';
+            Interventi_options_str  += '<option value="Karonda Plantation in Gothan">Karonda Plantation in Gothan</option>';
+            Interventi_options_str  += '<option value="LBS">LBS</option>';
+            Interventi_options_str  += '<option value="Landlevelling">Landlevelling</option>';
+            Interventi_options_str  += '<option value="Nadep Tank">Nadep Tank</option>';
+            Interventi_options_str  += '<option value="Plantation">Plantation</option>';
+            Interventi_options_str  += '<option value="Poultry Shed">Poultry Shed</option>';
+            Interventi_options_str  += '<option value="Segregation Shed">Segregation Shed</option>';
+            Interventi_options_str  += '<option value="Side Wall Pitching in River">Side Wall Pitching in River</option>';
+            Interventi_options_str  += '<option value="Social Forestry">Social Forestry</option>';
+            Interventi_options_str  += '<option value="Staggered Trench">Staggered Trench</option>';
+            Interventi_options_str  += '<option value="Stop Dam">Stop Dam</option>';
+            Interventi_options_str  += '<option value="Vermi Tank">Vermi Tank</option>';
+            sel_Interventi.innerHTML = Interventi_options_str;
+            div_Interventi.appendChild(sel_Interventi);
+            var lab_Interventi = document.createElement('div');
+            lab_Interventi.innerHTML = 'Interventi';
+            lab_Interventi.className = 'filterlabel';
+            div_Interventi.appendChild(lab_Interventi);
+            var reset_Interventi = document.createElement('div');
+            reset_Interventi.innerHTML = 'clear filter';
+            reset_Interventi.className = 'filterlabel';
+            reset_Interventi.onclick = function() {
+                var options = document.getElementById("sel_Interventi").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Interventi.appendChild(reset_Interventi);
+        resetLabels([layer_Masulpani_panchayat_cadastral_1]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Masulpani_panchayat_cadastral_1]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Masulpani_panchayat_cadastral_1]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Masulpani_panchayat_cadastral_1]);
+        });
+        </script>
+    </body>
+</html>
